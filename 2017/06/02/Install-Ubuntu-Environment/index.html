@@ -1,0 +1,820 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Ubuntu 14.04,HandTracking,3D,Depth Camera," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.jpg?v=5.0.2" />
+
+
+
+
+
+
+<meta name="description" content="前言前陣子好不容易指導教授鬆口同意我提出的題目，也為這個想法做好很多計畫但是計畫總是趕不上變化，網路上作者提供的手部追蹤程式的source code運行結果不甚理想…翻遍了網友的討論與作者的回應後發現是在Linux系統下的效能優於Windows系統原因似乎出在nVidia在Windows上的一些限制，這部分沒有深入細究
+在Linux系統上運行效能比較好是吧？好，不服來灌！以前大學曾經用過Ubunt">
+<meta property="og:type" content="article">
+<meta property="og:title" content="架設Ubuntu上的3D開發環境與手部追蹤程式">
+<meta property="og:url" content="http://yoursite.com/2017/06/02/Install-Ubuntu-Environment/index.html">
+<meta property="og:site_name" content="chinapipa's space">
+<meta property="og:description" content="前言前陣子好不容易指導教授鬆口同意我提出的題目，也為這個想法做好很多計畫但是計畫總是趕不上變化，網路上作者提供的手部追蹤程式的source code運行結果不甚理想…翻遍了網友的討論與作者的回應後發現是在Linux系統下的效能優於Windows系統原因似乎出在nVidia在Windows上的一些限制，這部分沒有深入細究
+在Linux系統上運行效能比較好是吧？好，不服來灌！以前大學曾經用過Ubunt">
+<meta property="og:updated_time" content="2017-06-02T15:56:20.245Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="架設Ubuntu上的3D開發環境與手部追蹤程式">
+<meta name="twitter:description" content="前言前陣子好不容易指導教授鬆口同意我提出的題目，也為這個想法做好很多計畫但是計畫總是趕不上變化，網路上作者提供的手部追蹤程式的source code運行結果不甚理想…翻遍了網友的討論與作者的回應後發現是在Linux系統下的效能優於Windows系統原因似乎出在nVidia在Windows上的一些限制，這部分沒有深入細究
+在Linux系統上運行效能比較好是吧？好，不服來灌！以前大學曾經用過Ubunt">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"hide"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/06/02/Install-Ubuntu-Environment/"/>
+
+
+  <title> 架設Ubuntu上的3D開發環境與手部追蹤程式 | chinapipa's space </title>
+</head>
+
+<body itemscope itemtype="//schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">chinapipa's space</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Be yourself and enjoy your life</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分類
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歷史
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                架設Ubuntu上的3D開發環境與手部追蹤程式
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2017-06-02T21:01:42+08:00" content="2017-06-02">
+              2017-06-02
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Research/" itemprop="url" rel="index">
+                    <span itemprop="name">Research</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2017/06/02/Install-Ubuntu-Environment/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/06/02/Install-Ubuntu-Environment/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>前陣子好不容易指導教授鬆口同意我提出的題目，也為這個想法做好很多計畫<br>但是計畫總是趕不上變化，網路上作者提供的手部追蹤程式的source code運行結果不甚理想…<br>翻遍了網友的討論與作者的回應後發現是在Linux系統下的效能優於Windows系統<br>原因似乎出在nVidia在Windows上的一些限制，這部分沒有深入細究</p>
+<p>在Linux系統上運行效能比較好是吧？<del>好，不服來灌！</del><br>以前大學曾經用過Ubuntu，基本操作還算熟悉<br>決定在另一顆硬碟上灌Ubuntu並架設3D開發環境<br>至於為什麼不是雙系統又是另一個故事了<br>有機會有心情再來談（茶</p>
+<a id="more"></a>
+<h1 id="所有安裝"><a href="#所有安裝" class="headerlink" title="所有安裝"></a>所有安裝</h1><p>先提一下最後建好的環境如下</p>
+<ol>
+<li><a href="#1">Ubuntu 14.04</a></li>
+<li><a href="#2">nVidia Driver</a>（電腦上的顯卡為GTX1060）</li>
+<li><a href="#3">Cuda 8.0</a></li>
+<li><a href="#4">OpenNI</a></li>
+<li><a href="#5">SensorKinect</a></li>
+<li><a href="#6">Nite</a></li>
+<li><a href="#7">OpenNI2</a></li>
+<li><a href="#8">Nite2</a></li>
+<li><a href="#9">Qt5</a></li>
+<li><a href="#10">OpenCV2.4.9</a></li>
+<li><a href="#11">AntTweakBar</a></li>
+<li><a href="#12">glm</a></li>
+<li><a href="#13">glew</a></li>
+<li><a href="#14">cmake-gui</a></li>
+<li><a href="#15">Hand Tracking code</a></li>
+</ol>
+<p>安裝過程所遇到的問題都記錄在<a href="#jump">Troubleshooting</a>中<br>所使用的深度攝影機為<a href="https://www.asus.com/tw/3D-Sensor/Xtion_PRO_LIVE/" target="_blank" rel="external">ASUS Xtion PRO LIVE</a></p>
+<h1 id="1">安裝Ubuntu 14.04</h1>
+
+<p>這部分應該不用我多說了，網路上可以查到很多教學<br>基本上就是將Ubuntu14.04的ISO檔燒至隨身碟或光碟後安裝<br>看是要手動切割空間或用預設直接安裝都可以</p>
+<p>我在安裝的時候因為是裝在有資料的硬碟上，所以選擇手動切割空間<br>在切割時也學到很多以前不知道的事<br>比如一顆硬碟上最多只能有4個主要分割槽（primary）<br>比如硬碟前幾位元是硬碟分割表，不小心損毀就會看不到硬碟分割槽<del>（硬碟救援又是再一個故事（淚</del></p>
+<p>比較需要注意的是現在新的BIOS可能是UEFI模式，我一直無法把Ubuntu灌成UEFI版<br>所以回歸Legacy（這個也是灌了才知道的詞）<br>簡易教學如下</p>
+<blockquote>
+<p>將14.04的iso檔燒進USB裡，重開機，進入BIOS選擇隨身碟開機<br>需將安全啟動模式關閉，PK key存入隨身碟後移除，開機模式從UEFI mode切成其他作業系統<br>連上網路後選擇安裝第三方軟體與更新（沒連上也沒關係，只是裝完後一樣要去更新）<br>選擇手動分割（boot、home、root、swap）或格式化硬碟安裝<br>安裝完畢後重新啟動電腦</p>
+</blockquote>
+<p>如果過程中想要選擇安裝第三方軟體與更新，可以從Try Ubuntu without Install那邊先把網路設定好再開始安裝<br>移除PK key是防止安全機制去阻擋nVidia驅動程式的樣子，請儲存好後才移除</p>
+<p>總之剛灌完的Ubuntu是很乾淨的環境，除了在安裝過程勾選的第三方軟體與系統自帶的更新外沒有任何軟體<br>開始架設開發環境囉！！</p>
+<h1 id="2">安裝Nvidia驅動程式</h1>
+
+<p>開啟<code>系統設定</code>-&gt;<code>軟體與更新</code>-&gt;<code>額外的驅動程式</code>，選擇<code>nVidia binary driver</code>-&gt;<code>Apply</code><br>安裝完後重新啟動電腦<br>（如果沒進BIOS選其他作業系統的話會遇到loop login的問題）</p>
+<p>輸入<code>nvidia-smi</code>可測試nvidia driver安裝成功</p>
+<h1 id="3">安裝Cuda 8.0</h1>
+
+<p>至<a href="https://developer.nvidia.com/cuda-downloads" target="_blank" rel="external">官網</a>下載<code>cuda 8.0</code>安裝檔，選擇<code>Linux</code>-&gt;<code>x86_64</code>-&gt;<code>Ubuntu-&gt;14.04</code>-&gt;<code>runfile(local)</code><br>開啟terminal<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">cd Downloads</div><div class="line">chmod u+x cuda_8.0.61_375.26_linux.run</div><div class="line">sudo ./cuda_8.0.61_375.26_linux.run</div></pre></td></tr></table></figure></p>
+<p>會先給看一份同意書（EULA），到100％時輸入accept（空白鍵下一頁<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">Install NVIDIA Accelerated Graphics Driver for Linux-x86_64 375.26?-&gt;n（前一步驟已安裝）</div><div class="line">Install the CUDA 8.0 Toolkit?-&gt;y</div><div class="line">Enter Toolkit Location-&gt;直接Enter預設位置</div><div class="line">Do you want to install a symbolic link at /usr/local/cuda?-&gt;y</div><div class="line">Install the CUDA 8.0 Samples?-&gt;y</div><div class="line">Enter CUDA Samples Location-&gt;直接Enter預設位置</div></pre></td></tr></table></figure></p>
+<p>開始安裝<br>大約五分鐘後安裝完畢<br>會看到</p>
+<blockquote>
+<p>Driver: Not Selected<br>Toolkit: Installed in /usr/local/cuda-8.0<br>Samples: Installed in /home/your_name, but missing recommended libraries</p>
+</blockquote>
+<p>再往上翻可以看到</p>
+<blockquote>
+<p>Missing recommended library: libGLU.so<br>Missing recommended library: libX11.so<br>Missing recommended library: libXi.so<br>Missing recommended library: libXmu.so</p>
+</blockquote>
+<p>這邊可以去看 <a href="#jump">Troubleshooting</a> 解決方式</p>
+<p>將CUDA路徑加入環境變數<br><code>sudo vim /etc/profile</code><br>在最後面添加下面兩行<br><code>export PATH=/usr/local/cuda-8.0/bin:$PATH</code><br><code>export LD_LIBRARY_PATH=/usr/local/cuda-8.0/lib64:$LD_LIBRARY</code><br>儲存並退出<br>執行<code>source /etc/profile</code>或<code>sudo ldconfig</code>讓文件立刻生效<br>（重新啟動電腦永久生效<br>（vim可用<code>sudo apt-get install vim</code>指令安裝）</p>
+<p>輸入<code>nvcc -V</code>可測試CUDA安裝成功</p>
+<p>編譯CUDA Sample<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">cd NVIDIA_CUDA-8.0_Samples</div><div class="line">make</div></pre></td></tr></table></figure></p>
+<p>看到Finished後進入<code>bin/x86_64/linux/release</code><br>用<code>./deviceQuery</code>驗證，pass表示成功</p>
+<h1 id="4">安裝openni</h1>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install update</div><div class="line">sudo apt-get install openni-utils</div></pre></td></tr></table></figure>
+<p>還有其他需要的程式<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install g++</div><div class="line">sudo apt-get install python</div><div class="line">sudo apt-get install libusb-1.0-0-dev</div><div class="line">sudo apt-get install freeglut3-dev</div><div class="line">sudo apt-get install openjdk-6-jdk</div><div class="line">sudo apt-get install doxygen</div><div class="line">sudo apt-get install graphviz</div></pre></td></tr></table></figure></p>
+<p>再照<a href="https://github.com/OpenNI/OpenNI" target="_blank" rel="external">網頁</a>指示安裝</p>
+<h1 id="5">安裝SensorKinect</h1>
+
+<p>如<a href="https://www.icyphy.org/accessors/wiki/ROS/InstallingThePrimeSenseKinectSensorOnUbuntu?from=Main.InstallingThePrimeSenseKinectSensorOnUbuntu" target="_blank" rel="external">這個網頁</a>的第三步</p>
+<h1 id="6">安裝nite</h1>
+
+<p>到<a href="http://download.dahoo.fr/Ressources/openNi/NiTE%20v1.5.2.23/" target="_blank" rel="external">這裡</a>下載檔案<br>解壓縮後進入資料夾<br><code>sudo ./install</code></p>
+<p>以上OpenNI、SensorKinect、Nite都安裝完畢可用openni中<code>Plateform/Linux/Bin/x64-Release</code>中的<code>NiViewer</code>測試<br>可成功看到深度影像與RGB影像</p>
+<h1 id="7">安裝openni2</h1>
+
+<p>到<a href="https://structure.io/openni" target="_blank" rel="external">這裡</a>下載所需檔案<br>解壓縮後進入資料夾<br><code>sudo ./install</code><br>（有參考<a href="https://codeyarns.com/2015/08/04/how-to-install-and-use-openni2/" target="_blank" rel="external">這個網頁</a>）</p>
+<h1 id="8">安裝nite2</h1>
+
+<p>到<a href="http://download.dahoo.fr/Ressources/openNi/last%20version%20Nite/" target="_blank" rel="external">這裡</a>下載所需檔案<br>解壓縮後進入資料夾<br><code>sudo ./install</code></p>
+<p>以上OpenNI2、Nite2安裝完畢可用OpenNI2中Tools的NiViewer測試<br>可成功看到深度影像與RGB影像</p>
+<h1 id="9">安裝Qt5</h1>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo apt-get update</div><div class="line">sudo apt-get install qt5-default qt5-qmake</div></pre></td></tr></table></figure>
+<h1 id="10">安裝OpenCV 2.4.9</h1>
+
+<p>按照<a href="http://www.samontab.com/web/2014/06/installing-opencv-2-4-9-in-ubuntu-14-04-lts/" target="_blank" rel="external">此網頁</a>安裝即可<br>裝完再重新啟動電腦</p>
+<h1 id="11">安裝AntTweakBar</h1>
+
+<p>去<a href="http://anttweakbar.sourceforge.net/doc/" target="_blank" rel="external">官網</a>下載檔案<br>解壓縮後進入<code>AntTweakBar/src</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">make</div><div class="line">cd ../include</div><div class="line">sudo cp AntTweakBar.h /usr/include</div><div class="line">cd ../lib</div><div class="line">sudo mv libAntTweakBar.so* libAntTweakBar.a /usr/lib</div><div class="line">sudo ldconfig</div></pre></td></tr></table></figure></p>
+<p>編譯example來驗證是否安裝成功<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">cd example</div><div class="line">make</div><div class="line">./TwSimpleGLFW</div></pre></td></tr></table></figure></p>
+<h1 id="12">安裝glm</h1>
+
+<p><code>sudo apt-get install libglm-dev</code></p>
+<h1 id="13">安裝glew</h1>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo apt-get update</div><div class="line">sudo apt-get install libglew-dev</div></pre></td></tr></table></figure>
+<h1 id="14">安裝cmake-gui</h1>
+
+<p><code>sudo apt-get install cmake-qt-gui</code></p>
+<h1 id="15">編譯hand tracking code</h1>
+
+<p>到<a href="https://github.com/OpenGP/htrack" target="_blank" rel="external">作者的github</a>下載source code並解壓縮，修改一些內容<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">/htrack-master/cudax/cuda_glm.h中，將CUDA_VERSION 7000改成8000</div><div class="line">/htrack-master/cudax/helper_cuda.h中，803行加入&#123;0x61, 128&#125;</div><div class="line">/htrack-master/CMakeLists.txt中，註解掉33行librealsense和48行htrack_qt</div><div class="line">/htrack-master/cmake/ConfigureCUDA.cmake，50行加入set(CUDA_NVCC_FLAGS &quot;$&#123;CUDA_NVCC_FLAGS&#125; -gencode arch=compute_61,code=sm_61&quot;) #GTX1060</div><div class="line">cd htrack-master</div><div class="line">mkdir build</div><div class="line">cd build</div><div class="line">cmake ..</div><div class="line">cmake-gui（若會下文字指令可以直接下）</div></pre></td></tr></table></figure></p>
+<p>設定完src跟build後將SENSOR改為openni<br><code>configure</code><br><code>generate</code><br>退出cmake-gui<br><code>make</code><br>執行<code>./htrack_atb</code></p>
+<p>到這裡就可以看到手部追蹤的畫面了！提醒一下這個程式是以護腕定位手的位置的<br>要去調整護腕顏色才能順利定位到手以及後續的追蹤</p>
+<h1 id="jump">Troubleshooting</h1>
+
+<p>我遇到的問題有下面幾個：</p>
+<ol>
+<li><a href="#t1">安裝完NVidia驅動程式後出現無限登入畫面</a></li>
+<li><a href="#t2">安裝CUDA時出現missing recommended library</a></li>
+<li><a href="#t3">安裝CUDA Sample時出現g++: No such file or directory</a></li>
+<li><a href="#t4">安裝openni時出現/sbin/ldconfig.real: /usr/lib/nvidia-375/libEGL.so.1 is not a symbolic link與/sbin/ldconfig.real: /usr/lib32/nvidia-375/libEGL.so.1 is not a symbolic link</a></li>
+<li><a href="#t5">執行NiViewer時出現Open failed: USB interface is not wupported!（openni）</a></li>
+<li><a href="#t6">執行NiViewer時出現openDevice failed: DeviceOpen using default: no devices found（openni2）</a></li>
+<li><a href="#t6">執行NiViewer時出現openDevice failed: DeviceOpen using default: 0601……（openni2）</a></li>
+<li><a href="#t8">執行NiViewer或nite2的sample出現Warning: USB events thread - failed to set priority. This might cause loss of data…</a></li>
+<li><a href="#t9">編譯opencv的時候出現nvcc fatal: Unsupported gpu architecture ‘compute_11’…</a></li>
+<li><a href="#t10">編譯opencv的時候出現error: a storage class is not allowed in an explicit specialization</a></li>
+<li><a href="#t11">編譯opencv的時候出現error: ‘NppiGraphcutState’ has not been declared</a></li>
+<li><a href="#t12">安裝opencv sample時遇到/usr/bin/ld: cannot find -lcufft….</a></li>
+<li><a href="#13">編譯AntTweakBar example時出現fatal error: SDL/SDL.h: No such file or directory</a></li>
+<li><a href="#14">編譯AntTweakBar example時出現/usr/bin/ld: cannot find -lglfw</a></li>
+<li><a href="#15">執行htrack_atb時出現OpenCV Error: Null pointer(NULL guiReceiver (please create a window)) in cvDestroyWindow, file /opencv-2.4.9/modules/highgui/src/window_QT.cpp, line 490</a></li>
+</ol>
+<h1 id="t1">安裝完NVidia驅動程式後出現無限登入畫面</h1>
+
+<p>解法：進BIOS將UEFI mode切換成其他作業系統</p>
+<h1 id="t2">安裝CUDA時出現missing recommended library</h1>
+
+<p>解法：</p>
+<blockquote>
+<p>sudo apt-get install libglu1-mesa<br>sudo apt-get install libxi-dev<br>sudo apt-get install libxmu-dev<br>sudo apt-get install libx11-dev</p>
+</blockquote>
+<h1 id="t3">安裝CUDA Sample時出現g++: No such file or directory</h1>
+
+<p>解法：<code>sudo apt-get install g++</code><br>這個錯誤我一開始還跑去看到底是那個資料夾找不到，結果只是沒裝套件（汗）</p>
+<h1 id="t4">安裝openni時出現/sbin/ldconfig.real: /usr/lib/nvidia-375/libEGL.so.1 is not a symbolic link與/sbin/ldconfig.real: /usr/lib32/nvidia-375/libEGL.so.1 is not a symbolic link</h1>
+
+<p>解法：參考<a href="http://stackoverflow.com/questions/43016255/libegl-so-1-is-not-a-symbolic-link" target="_blank" rel="external">這裡</a>使用下列指令：</p>
+<blockquote>
+<p>sudo mv /usr/lib/nvidia-375/libEGL.so.1 /usr/lib/nvidia-375/libEGL.so.1.org<br>sudo mv /usr/lib32/nvidia-375/libEGL.so.1 /usr/lib32/nvidia-375/libEGL.so.1.org<br>sudo ln -s /usr/lib/nvidia-375/libEGL.so.375.39 /usr/lib/nvidia-375/libEGL.so.1<br>sudo ln -s /usr/lib32/nvidia-375/libEGL.so.375.39 /usr/lib32/nvidia-375/libEGL.so.1</p>
+</blockquote>
+<h1 id="t5">執行NiViewer時出現Open failed: USB interface is not wupported!（openni）</h1>
+
+<p>解法：<br><code>sudo apt-get install --reinstall lobopenni-sensor-primesense0</code><br>並確認SensorKinect和Nite都有安裝完畢，還有問題就重開機看看</p>
+<h1 id="t6">執行NiViewer時出現openDevice failed: DeviceOpen using default: no devices found（openni2）</h1>
+
+<p>解法：<br>確定libudev.so有存在<br><code>locate libudev.so</code><br><code>sudo ln -s /lib/x86-64-linux-gnu/libudev.so.1.3.5 /lib/x86_64-linux-gnu/libudev.so.0</code></p>
+<h1 id="t7">執行NiViewer時出現openDevice failed: DeviceOpen using default: 0601……（openni2）</h1>
+
+<p>解法：確認套件都有安裝成功的話重開機看看<br>（這邊我重開機就正常了，如果還有問題的話可能要再查）</p>
+<h1 id="t8">執行NiViewer或nite2的sample出現Warning: USB events thread - failed to set priority. This might cause loss of data…</h1>
+
+<p>解法：使用root身份執行就不會報這個錯<br><code>sudo ./NiViewer</code></p>
+<h1 id="t9">編譯opencv的時候出現nvcc fatal: Unsupported gpu architecture ‘compute_11’…</h1>
+
+<p>解法：將cmake的參數多加一個<code>-D CUDA_GENERATION=Auto</code></p>
+<h1 id="t10">編譯opencv的時候出現error: a storage class is not allowed in an explicit specialization</h1>
+
+<p>解法：開啟NCVPixelOperations.hpp檔案，將出錯的行數的static拿掉<br>（~/opencv/modules/gpu/src/nvidia/core/NCVPixelOperations.hpp）</p>
+<h1 id="t11">編譯opencv的時候出現error: ‘NppiGraphcutState’ has not been declared</h1>
+
+<p>解法：是因為cuda8.0與opencv不兼容導致<br>修改~/opencv/modules/gpu/src/graphcuts.cpp<br>將<code>#if !defined (HAVE_CUDA) || defined (CUDA_DISABLER)</code><br>改為<code>#if !defined (HAVE_CUDA) || defined (CUDA_DISABLER) || (CUDART_VERSION&gt;=8000)</code></p>
+<h1 id="t12">安裝opencv sample時遇到/usr/bin/ld: cannot find -lcufft….</h1>
+
+<p>解法：</p>
+<blockquote>
+<p>sudo ln -s /usr/local/cuda/lib64/libcufft.so /usr/lib/libcufft.so<br>sudo ln -s /usr/local/cuda/lib64/libnpps.so /usr/lib/libnpps.so<br>sudo ln -s /usr/local/cuda/lib64/libnppi.so /usr/lib/libnppi.so<br>sudo ln -s /usr/local/cuda/lib64/libnppc.so /usr/lib/libnppc.so<br>sudo ln -s /usr/local/cuda/lib64/libcudart.so /usr/lib/libcudart.so</p>
+</blockquote>
+<h1 id="t13">編譯AntTweakBar example時出現fatal error: SDL/SDL.h: No such file or directory</h1>
+
+<p>解法：<code>sudo apt-get install libsdl1.2-dev</code></p>
+<h1 id="t14">編譯AntTweakBar example時出現/usr/bin/ld: cannot find -lglfw</h1>
+
+<p>解法：安裝GLFW<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">git clone https://github.com/glfw/glfw</div><div class="line">cd glfw</div><div class="line">mkdir build</div><div class="line">cd build</div><div class="line">cmake ..</div><div class="line">make -j4</div><div class="line">sudo make install</div></pre></td></tr></table></figure></p>
+<p>但14.04好像還不支援glfw3，所以也可以直接<code>sudo apt-get install libglfw</code></p>
+<h1 id="t15">執行htrack_atb時出現OpenCV Error: Null pointer(NULL guiReceiver (please create a window)) in cvDestroyWindow, file /opencv-2.4.9/modules/highgui/src/window_QT.cpp, line 490</h1>
+
+<p>解法：<br>打開/htrack-master/tracker/HandFinder/HandFinder.cpp<br>將兩行cv::destroyWindow(“show_hand”);註解掉</p>
+<h1 id="心得"><a href="#心得" class="headerlink" title="心得"></a>心得</h1><p>為了架這個環境我重灌了很多次<br>每次重開機也都心驚膽戰的<br>怕一不小心又要重來QQ<br>試了好幾次總算讓我順利架完<br>雖然每次重開機都很緊張<br>但不得不說重開機有時真的能<del>治百病</del>解決問題</p>
+<p>But!!我好不容易架完以後，覺得手部追蹤效能還是沒有作者demo的那麼好…<br>我覺得應該是因為攝影機解析度的關係<br>雖然xtion的深度解析度可以到VGA（640*480）<br>但作者的程式碼限制它只能在QVGA（320*240）<br>應該可以修改，但程式盤根錯節的…我功力還不到位，還要花時間去試<br>但已經在這步驟卡太久了，在不考慮換sensor的情況下只好先跳過這裡去做後面的部分</p>
+<p>努力架出這個環境的好處大概是以後隨時可以換系統開發，以及架環境level up up了，哈哈…</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Ubuntu-14-04/" rel="tag">#Ubuntu 14.04</a>
+          
+            <a href="/tags/HandTracking/" rel="tag">#HandTracking</a>
+          
+            <a href="/tags/3D/" rel="tag">#3D</a>
+          
+            <a href="/tags/Depth-Camera/" rel="tag">#Depth Camera</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/10/12/chinapipa/" rel="next" title="開天闢地第一篇">
+                <i class="fa fa-chevron-left"></i> 開天闢地第一篇
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="//schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="chinapipa" />
+          <p class="site-author-name" itemprop="name">chinapipa</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">2</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">分類</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/chinapipa" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#所有安裝"><span class="nav-number">2.</span> <span class="nav-text">所有安裝</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#1"><span class="nav-number">3.</span> <span class="nav-text">安裝Ubuntu 14.04</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2"><span class="nav-number">4.</span> <span class="nav-text">安裝Nvidia驅動程式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3"><span class="nav-number">5.</span> <span class="nav-text">安裝Cuda 8.0</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4"><span class="nav-number">6.</span> <span class="nav-text">安裝openni</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5"><span class="nav-number">7.</span> <span class="nav-text">安裝SensorKinect</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#6"><span class="nav-number">8.</span> <span class="nav-text">安裝nite</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#7"><span class="nav-number">9.</span> <span class="nav-text">安裝openni2</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#8"><span class="nav-number">10.</span> <span class="nav-text">安裝nite2</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#9"><span class="nav-number">11.</span> <span class="nav-text">安裝Qt5</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#10"><span class="nav-number">12.</span> <span class="nav-text">安裝OpenCV 2.4.9</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#11"><span class="nav-number">13.</span> <span class="nav-text">安裝AntTweakBar</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#12"><span class="nav-number">14.</span> <span class="nav-text">安裝glm</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#13"><span class="nav-number">15.</span> <span class="nav-text">安裝glew</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#14"><span class="nav-number">16.</span> <span class="nav-text">安裝cmake-gui</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#15"><span class="nav-number">17.</span> <span class="nav-text">編譯hand tracking code</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#jump"><span class="nav-number">18.</span> <span class="nav-text">Troubleshooting</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#t1"><span class="nav-number">19.</span> <span class="nav-text">安裝完NVidia驅動程式後出現無限登入畫面</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#t2"><span class="nav-number">20.</span> <span class="nav-text">安裝CUDA時出現missing recommended library</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#t3"><span class="nav-number">21.</span> <span class="nav-text">安裝CUDA Sample時出現g++: No such file or directory</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#t4"><span class="nav-number">22.</span> <span class="nav-text">安裝openni時出現/sbin/ldconfig.real: /usr/lib/nvidia-375/libEGL.so.1 is not a symbolic link與/sbin/ldconfig.real: /usr/lib32/nvidia-375/libEGL.so.1 is not a symbolic link</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#t5"><span class="nav-number">23.</span> <span class="nav-text">執行NiViewer時出現Open failed: USB interface is not wupported!（openni）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#t6"><span class="nav-number">24.</span> <span class="nav-text">執行NiViewer時出現openDevice failed: DeviceOpen using default: no devices found（openni2）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#t7"><span class="nav-number">25.</span> <span class="nav-text">執行NiViewer時出現openDevice failed: DeviceOpen using default: 0601……（openni2）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#t8"><span class="nav-number">26.</span> <span class="nav-text">執行NiViewer或nite2的sample出現Warning: USB events thread - failed to set priority. This might cause loss of data…</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#t9"><span class="nav-number">27.</span> <span class="nav-text">編譯opencv的時候出現nvcc fatal: Unsupported gpu architecture ‘compute_11’…</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#t10"><span class="nav-number">28.</span> <span class="nav-text">編譯opencv的時候出現error: a storage class is not allowed in an explicit specialization</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#t11"><span class="nav-number">29.</span> <span class="nav-text">編譯opencv的時候出現error: ‘NppiGraphcutState’ has not been declared</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#t12"><span class="nav-number">30.</span> <span class="nav-text">安裝opencv sample時遇到/usr/bin/ld: cannot find -lcufft….</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#t13"><span class="nav-number">31.</span> <span class="nav-text">編譯AntTweakBar example時出現fatal error: SDL/SDL.h: No such file or directory</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#t14"><span class="nav-number">32.</span> <span class="nav-text">編譯AntTweakBar example時出現/usr/bin/ld: cannot find -lglfw</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#t15"><span class="nav-number">33.</span> <span class="nav-text">執行htrack_atb時出現OpenCV Error: Null pointer(NULL guiReceiver (please create a window)) in cvDestroyWindow, file /opencv-2.4.9/modules/highgui/src/window_QT.cpp, line 490</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#心得"><span class="nav-number">34.</span> <span class="nav-text">心得</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">chinapipa</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'chinapipa';
+      var disqus_identifier = '2017/06/02/Install-Ubuntu-Environment/';
+      var disqus_title = "架設Ubuntu上的3D開發環境與手部追蹤程式";
+      var disqus_url = 'http://yoursite.com/2017/06/02/Install-Ubuntu-Environment/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
